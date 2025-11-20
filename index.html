@@ -4,7 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Recipe Manager Web App</title>
-    <link rel="styelesheet" href="style.css" />
+    <link rel="stylesheet" href="style.css" />
+    <!-- font links -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Annie+Use+Your+Telescope&family=Bitcount+Grid+Double:wght@100..900&family=Italianno&family=Moon+Dance&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <!-- navbar -->
@@ -12,20 +19,52 @@
       <nav>
         <!-- logo -->
         <div class="logo">
-          <img src="" alt="Recipe App logo" />
+          <h1>Recipes Palace</h1>
         </div>
 
         <li><a href="">Home</a></li>
-        <li><a href="">Recipe</a></li>
-        <l><a href="">Contact</a></l>
+        <li><a href="#cards">Recipe</a></li>
+        <li><a href="#footer">Contact</a></li>
       </nav>
     </header>
     <!--  main recipe  -->
-    <nav>
-      <div class="search-recipe">
-        <input type="text" placeholder="Search Recipe" />
-        <button>Search</button>
-      </div>
-    </nav>
+
+    <div class="search-recipe-bar">
+      <input type="text" placeholder="Search Recipe" class="search-input" />
+      <button class="search-button">Search</button>
+
+      <button class="add-recipe-button">
+        <a href="addRecipe.html"> Add recipe</a>
+      </button>
+    </div>
+
+    <!--  create a grid layout for cards -->
+    <section id="cards" class="grid-box-recipe">
+      <!-- recipe cards -->
+      <!-- <div class="recipe-card">
+        <img src="recipe1.jpg" alt="Recipe 1" />
+        <h3 id="title">Spaghetti Carbonara</h3>
+        <p id="description">
+          A classic Italian pasta dish with creamy sauce and pancetta.
+        </p>
+        <p id="ingredients"></p>
+        <p id="steps"></p>
+        <p id="prepare-time"></p>
+        <p id="difficulty"></p>
+
+        <button id="edit">Edit</button>
+        <button id="delete">Delete</button>
+      </div> -->
+    </section>
+
+    <script src="data.js"></script>
+    <script src="main.js"></script>
+
+    <footer>
+      <!-- social links to connect  -->
+      <div class="social-links"></div>
+      <!-- copywrite -->
+      <p>&copy; 2025 Recipes Palace. All rights reserved.</p>
+    </footer>
   </body>
 </html>

@@ -1,0 +1,66 @@
+.add-recipe-container {
+  background-image: url("images/wooden-background.jpg");
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: cover;
+
+  padding: 35px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  max-width: 600px;
+
+  float: right;
+  width: 600px;
+  height: 870px;
+  transition: box-shadow 0.5s ease;
+}
+
+/* Form container hover effect */
+.add-recipe-container:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2), 0 0 15px var(--bg-image);
+}
+
+.add-recipe-container h2 {
+  color: var(--accent-color);
+  margin-bottom: 5px;
+  border-bottom: 2px solid var(--header-nav-bg);
+  padding-bottom: 10px;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bolder;
+  font-size: 19px;
+  color: #fcc61d;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="url"],
+textarea,
+select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  background-color: white;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  height: 48px;
+}
+
+button {
+  background-color: #ff7d29;
+  width: 530px;
+  height: 35px;
+  border: none;
+  border-radius: 8px;
+  font-size: 17px;
+}

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Recipe Form</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="formRespnsive.css" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <!-- logo -->
+        <div class="logo">
+          <h1>Recipes Palace</h1>
+        </div>
+
+        <li><a href="">Home</a></li>
+        <li><a href="">Recipe</a></li>
+        <li><a href="">Contact</a></li>
+      </nav>
+    </header>
+
+    <!--  add  recipe   form  -->
+
+    <section class="add-recipe-container">
+      <h2>Add a New Recipe 🍜</h2>
+      <form id="recipe-form">
+        <!-- Recipe Title -->
+        <div class="form-group">
+          <label for="title">Title:</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            required
+            placeholder="e.g., Spicy Lentil Soup"
+          />
+        </div>
+
+        <!-- Recipe Description -->
+        <div class="form-group">
+          <label for="description">Description:</label>
+          <textarea
+            id="description"
+            name="description"
+            rows="3"
+            required
+            placeholder="A brief, appealing description of the dish..."
+          ></textarea>
+        </div>
+
+        <!-- Ingredients  -->
+        <div class="form-group">
+          <label for="ingredients">Ingredients (One per line):</label>
+          <textarea
+            id="ingredients"
+            name="ingredients"
+            rows="5"
+            required
+            placeholder="1 cup flour&#10;2 tbsp sugar&#10;..."
+          ></textarea>
+        </div>
+
+        <!-- Cooking Steps -->
+        <div class="form-group">
+          <label for="steps">Steps:</label>
+          <textarea
+            id="steps"
+            name="steps"
+            rows="6"
+            required
+            placeholder="1. Preheat oven...&#10;2. Mix ingredients...&#10;3. Bake for 30 min..."
+          ></textarea>
+        </div>
+
+        <!-- Time and Difficulty -->
+        <div class="form-row">
+          <div class="form-group half-width">
+            <label for="prep-time">Prep Time (min):</label>
+            <input
+              type="number"
+              id="prep-time"
+              name="prepTime"
+              min="1"
+              required
+              placeholder="15"
+            />
+          </div>
+          <div class="form-group half-width">
+            <label for="cook-time">Cook Time (min):</label>
+            <input
+              type="number"
+              id="cook-time"
+              name="cookTime"
+              min="1"
+              required
+              placeholder="45"
+            />
+          </div>
+        </div>
+
+        <!-- Difficulty Dropdown -->
+        <div class="form-group">
+          <label for="difficulty">Difficulty:</label>
+          <select id="difficulty" name="difficulty" required>
+            <option value="">-- Select Difficulty --</option>
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
+
+        <!-- Optional Image URL -->
+        <div class="form-group">
+          <label for="image-url">Image URL (Optional):</label>
+          <input
+            type="url"
+            id="image-url"
+            name="imageURL"
+            placeholder="https://example.com/image.jpg"
+          />
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="app-button submit-button">
+          Save Recipe
+        </button>
+      </form>
+    </section>
+    <script src="data.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>
