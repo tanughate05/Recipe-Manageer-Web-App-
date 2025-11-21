@@ -47,4 +47,3 @@ window.RECIPES_DATA = [
     imageURL: "images/spicy-lentil-soup.jpg",
   },
 ];
-localStorage.removeItem("userRecipes");
