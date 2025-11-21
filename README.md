@@ -128,7 +128,7 @@ Implementation notes (main.js):
   "prepTime": 20,
   "cookTime": 30,
   "times": 50,
-  "difficulty": "easy",      // values: "easy" | "medium" | "hard"
+  "difficulty": "easy",      
   "imageURL": "https://...jpg",
   "savedAt": "2025-11-21T05:44:47.413Z"
 }
