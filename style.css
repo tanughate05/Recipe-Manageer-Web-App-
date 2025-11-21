@@ -36,12 +36,12 @@ header nav {
 }
 
 .logo h1 {
-  font-size: 2rem;
-  color: var(--footer);
+  font-size: 1.8rem;
+  color: white;
   font-family: "Italianno", cursive;
 }
 .logo h1:hover {
-  color: white;
+  color: var(--footer);
 }
 
 .menu-toggle {
@@ -111,7 +111,7 @@ header nav {
   }
 
   header nav.nav-open .nav-links a:hover {
-    color: white;
+    background: rgba(255, 255, 255, 0.06);
   }
 
   /* animate hamburger into X when open */
@@ -131,7 +131,7 @@ li {
 }
 li a {
   text-decoration: none;
-  color: var(--footer);
+  color: white;
   font-weight: bold;
   padding: 5px 10px;
   transition: color 0.3s;
@@ -139,7 +139,7 @@ li a {
   font-size: 1.5rem;
 }
 li a:hover {
-  color: white;
+  color: var(--footer);
 }
 
 .search-recipe-bar {
