@@ -3,6 +3,7 @@
   --header-nav-bg: #1a2a4f;
   --serach-bar-bg: white;
   --text-color: #333;
+  --footer: #ff204e;
 }
 * {
   margin: 0;
@@ -35,9 +36,12 @@ header nav {
 }
 
 .logo h1 {
-  font-size: 1.7rem;
-  color: white;
+  font-size: 2rem;
+  color: var(--footer);
   font-family: "Italianno", cursive;
+}
+.logo h1:hover {
+  color: white;
 }
 
 .menu-toggle {
@@ -100,14 +104,14 @@ header nav {
     display: block;
     width: 100%;
     padding: 10px 12px;
-    color: #fff;
+    color: var(--footer);
     text-decoration: none;
     font-size: 1rem;
     border-radius: 6px;
   }
 
   header nav.nav-open .nav-links a:hover {
-    background: rgba(255, 255, 255, 0.06);
+    color: white;
   }
 
   /* animate hamburger into X when open */
@@ -127,15 +131,15 @@ li {
 }
 li a {
   text-decoration: none;
-  color: white;
+  color: var(--footer);
   font-weight: bold;
   padding: 5px 10px;
   transition: color 0.3s;
   font-family: "Italianno", cursive; /* applied font family*/
-  font-size: 1.3rem;
+  font-size: 1.5rem;
 }
 li a:hover {
-  color: var(--bg);
+  color: white;
 }
 
 .search-recipe-bar {
@@ -394,4 +398,7 @@ footer {
   text-align: center;
   font-family: "Italianno", cursive;
   font-size: 25px;
+}
+#copy-write:hover {
+  color: var(--footer);
 }
