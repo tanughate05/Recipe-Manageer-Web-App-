@@ -64,3 +64,10 @@ button {
   border-radius: 8px;
   font-size: 17px;
 }
+
+footer {
+  margin-top: 1000px;
+  text-align: center;
+  font-family: "Italianno", cursive;
+  font-size: 25px;
+}
