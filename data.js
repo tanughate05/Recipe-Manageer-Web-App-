@@ -80,4 +80,21 @@ window.RECIPES_DATA = [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1trrm7V04UE1xiUExNAy4sev_nWY5yFpuZw&s",
     savedAt: "2025-11-21T09:30:09.060Z",
   },
+  {
+    id: 1763722329115,
+    title: "Ukadiche Modak {Rice Dumplings with Sweet Coconut Filling}",
+    description:
+      "Ukadiche Modak is a Maharashtrian delicacy made with steamed rice flour and a sweet coconut filling laced with nutmeg, cardamom, and saffron. I am excited to share my detailed modak recipe with all the tips and tricks to help you make Modak like a pro!",
+    ingredients:
+      "1.Fine rice flour\n2.Ghee\n3.Grated Coconut\n4.Jaggery\n5.Cardamom and Nutmeg",
+    steps:
+      "1. Step 1: Prepare the ukad/dough for the outer covering by bringing water to a boil with a pinch of salt and ghee, then slowly mix in rice flour off the heat, stirring to form a smooth pliable dough.\n2. Step 2: For the filling, heat ghee, add grated coconut and jaggery, cook until combined; add powdered cardamom and nutmeg. Cool the filling.\n3. Step 3: Make small balls from the dough, flatten into cups, fill with coconut-jaggery mixture, seal and shape into modak.\n4. Step 4: Steam the modaks (ukadiche modak) for 8–12 minutes until set. Serve warm.",
+    prepTime: 30,
+    cookTime: 15,
+    times: 45,
+    difficulty: "hard",
+    imageURL:
+      "https://www.biobasics.org/cdn/shop/articles/Bio_2.jpg?v=1694705359",
+    savedAt: "2025-11-21T10:52:09.115Z",
+  },
 ];
