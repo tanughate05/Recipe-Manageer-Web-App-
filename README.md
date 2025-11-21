@@ -53,7 +53,7 @@ A small front-end recipe manager. Recipes are rendered as cards, can be added fr
 - Seed behavior: when `userRecipes` is absent, code falls back to `window.RECIPES_DATA` (from `data.js`) and persists that seed into `localStorage`. This ensures initial cards display.
 - Common pitfalls:
   - If `data.js` contains `localStorage.removeItem("userRecipes")`, it will wipe saved recipes on every page load. Remove that line in `data.js` unless intentionally resetting during development.
-  - If you change `data.js` but `userRecipes` already exists in localStorage, the page continues to use the stored data — you may need to clear the key to pick up `data.js` changes.
+  - If I change `data.js` but `userRecipes` already exists in localStorage, the page continues to use the stored data — you may need to clear the key to pick up `data.js` changes.
 - Useful console commands:
   - Reset stored recipes: `localStorage.removeItem('userRecipes'); location.reload();`
   - Inspect stored recipes: `JSON.parse(localStorage.getItem('userRecipes'))`
@@ -81,11 +81,11 @@ Implementation notes (main.js):
 
 ---
 
-## CSS / UI notes & small details you have used
+## CSS / UI notes & small details I have used
 
 - Background image:
   - Single image set with `background-image: url("images/recipe-bg.jpg"); background-repeat: no-repeat; background-position: top center; background-size: cover;`
-  - To dim the background without making children translucent, use a gradient overlay (or a ::before pseudo-element) — you already used both approaches in different files.
+  - To dim the background without making children translucent, use a gradient overlay (or a ::before pseudo-element) — I already used both approaches in different files.
 - Form container `.add-recipe-container`:
   - Has cover background image (e.g., `wooden-background.jpg`), overlay via gradients, rounded corners and box-shadow.
   - For responsiveness you added media queries (`max-width: 768px` and `420px`) to remove float, set width:100%, reduce padding and make height `auto`.
@@ -96,7 +96,7 @@ Implementation notes (main.js):
 - Mobile nav:
   - Hamburger `.menu-toggle` with three bars, toggles `nav.nav-open`.
   - On mobile, `.nav-links` shown as a vertical column inside the same nav with background matching `--header-nav-bg`.
-  - You also experimented with a CSS-only checkbox approach (`.side-menu`) and `:has()` rules (note: `:has` not supported in all browsers).
+  - I also experimented with a CSS-only checkbox approach (`.side-menu`) and `:has()` rules (note: `:has` not supported in all browsers).
 
 ---
 
