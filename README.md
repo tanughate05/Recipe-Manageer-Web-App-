@@ -100,17 +100,38 @@ Implementation notes (main.js):
 
 ---
 
-## How to test / run locally
+## How to run the app
 
-1. Open `index.html` in a browser (Chrome/Firefox/Safari).
-2. If you want to start from seed data:
-   - Ensure `data.js` defines `window.RECIPES_DATA = [ ... ]`.
-   - If `userRecipes` already exists, remove it (see console command above).
-3. Add a recipe via `addRecipe.html` form — it will be saved to localStorage and shown on `index.html`.
-4. To persist recipes back into `data.js` you must run a server that accepts posts and writes the file. Example:
-   - (from project folder) `npm init -y`
-   - `npm install express body-parser cors`
-   - `node server.js` (if you created the earlier suggested `server.js`)
+- Quick (no server): open `index.html` in your browser.
+- Recommended (serves assets correctly — Mac / Terminal):
+  - From project folder:
+    - Python 3: `python3 -m http.server 8000`
+    - Or Node: `npx serve .` (install `serve` if needed)
+  - Then open: `http://localhost:8000`
+- Dev tips:
+  - Open DevTools (Console) to view errors and localStorage contents.
+  - To reset seed data and start fresh:  
+    `localStorage.removeItem('userRecipes'); location.reload();`
+
+## Data structure in localStorage
+
+- Key: `userRecipes`
+- Value: JSON string of an array of recipe objects. Each recipe object example:
+
+```json
+{
+  "id": 1763703887413,
+  "title": "Pav Bhaji",
+  "description": "Full description text...",
+  "ingredients": "line1\nline2\nline3",
+  "steps": "step1\nstep2",
+  "prepTime": 20,
+  "cookTime": 30,
+  "times": 50,
+  "difficulty": "easy",      // values: "easy" | "medium" | "hard"
+  "imageURL": "https://...jpg",
+  "savedAt": "2025-11-21T05:44:47.413Z"
+}
 
 ---
 
@@ -121,3 +142,4 @@ Implementation notes (main.js):
 - Keep `data.js` free of any call that clears `localStorage` unless intended.
 
 ---
+```
