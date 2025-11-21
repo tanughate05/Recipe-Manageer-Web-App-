@@ -25,10 +25,23 @@
         <div class="logo">
           <h1>Recipes Palace</h1>
         </div>
-
-        <li><a href="index.html">Home</a></li>
-        <li><a href="#cards">Recipe</a></li>
-        <li><a href="#footer">Contact</a></li>
+        <!-- mobile menu button -->
+        <button
+          class="menu-toggle"
+          aria-expanded="false"
+          aria-label="Open menu"
+          type="button"
+        >
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+        <!--  nav links -->
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="#cards">Recipe</a></li>
+          <li><a href="#footer">Contact</a></li>
+        </ul>
       </nav>
     </header>
     <!--  main recipe  -->
@@ -36,6 +49,14 @@
     <div class="search-recipe-bar">
       <input type="text" placeholder="Search Recipe" class="search-input" />
       <button class="search-button">Search</button>
+      <!--  filter  -->
+      <select id="filter-section">
+        Filter by difficulty
+        <option value="all">All</option>
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
+      </select>
 
       <button class="add-recipe-button">
         <a href="addRecipe.html"> Add recipe</a>

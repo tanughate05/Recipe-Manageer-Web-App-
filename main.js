@@ -1,29 +1,25 @@
-// Renders cards from localStorage (key: userRecipes), wires search and form if present.
 (() => {
   const STORAGE_KEY = "userRecipes";
+
   const loadRecipes = () => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) {
-        return JSON.parse(raw);
-      }
-      // If localStorage empty but data.js provided initial data, use it and persist
+      if (raw) return JSON.parse(raw);
       if (
         window &&
         Array.isArray(window.RECIPES_DATA) &&
         window.RECIPES_DATA.length
       ) {
-        const seed = window.RECIPES_DATA.map((r) => {
-          // ensure consistent shape and unique id if needed
-          return Object.assign(
+        const seed = window.RECIPES_DATA.map((r) =>
+          Object.assign(
             { id: r.id || `seed-${Date.now()}-${Math.random()}` },
             r
-          );
-        });
+          )
+        );
         try {
           localStorage.setItem(STORAGE_KEY, JSON.stringify(seed));
         } catch (e) {
-          console.warn("Could not persist seed data to localStorage:", e);
+          /* ignore */
         }
         return seed;
       }
@@ -46,13 +42,14 @@
     document.getElementById("recipes-container") ||
     document.querySelector(".grid-box-recipe");
 
-  // ...existing code...
+  let currentSearch = "";
+  let currentDifficulty = "all";
+
   function makeCard(recipe) {
     const card = document.createElement("div");
     card.className = "recipe-card";
     card.dataset.id = recipe.id;
 
-    // wrap the main content so we can clamp it via CSS and toggle expansion
     const body = document.createElement("div");
     body.className = "card-body";
 
@@ -74,7 +71,7 @@
     } min · ${(recipe.difficulty || "").toString()}`;
     body.appendChild(meta);
 
-    // Ingredients list
+    // Ingredients
     const ingrWrap = document.createElement("div");
     ingrWrap.className = "recipe-ingredients";
     const ingrTitle = document.createElement("strong");
@@ -85,7 +82,7 @@
       ? recipe.ingredients
       : String(recipe.ingredients || "").split(/\r?\n/);
     ingredients.forEach((i) => {
-      if (!i.trim()) return;
+      if (!i || !String(i).trim()) return;
       const li = document.createElement("li");
       li.textContent = i;
       ul.appendChild(li);
@@ -93,7 +90,7 @@
     ingrWrap.appendChild(ul);
     body.appendChild(ingrWrap);
 
-    // Steps list
+    // Steps
     const stepsWrap = document.createElement("div");
     stepsWrap.className = "recipe-steps";
     const stepsTitle = document.createElement("strong");
@@ -104,7 +101,7 @@
       ? recipe.steps
       : String(recipe.steps || "").split(/\r?\n/);
     steps.forEach((s) => {
-      if (!s.trim()) return;
+      if (!s || !String(s).trim()) return;
       const li = document.createElement("li");
       li.textContent = s;
       ol.appendChild(li);
@@ -114,19 +111,16 @@
 
     card.appendChild(body);
 
-    // image (kept, above actions)
-    const img = document.createElement("img");
-    img.className = "recipe-image";
-    img.alt = recipe.title || "Recipe image";
-    img.src =
-      recipe.imageURL && String(recipe.imageURL).trim()
-        ? recipe.imageURL
-        : "https://via.placeholder.com/600x360?text=No+Image";
-    // place image at top visually by inserting before body if desired,
-    // here we append so it appears after body — adjust as you prefer:
-    card.insertBefore(img, body);
+    // optional image (single image)
+    if (recipe.imageURL && String(recipe.imageURL).trim()) {
+      const img = document.createElement("img");
+      img.className = "recipe-image";
+      img.alt = recipe.title || "Recipe image";
+      img.src = recipe.imageURL;
+      card.insertBefore(img, body);
+    }
 
-    // Read more button (toggles expansion)
+    // read more button
     const readMoreBtn = document.createElement("button");
     readMoreBtn.className = "read-more-btn";
     readMoreBtn.type = "button";
@@ -134,7 +128,6 @@
     readMoreBtn.addEventListener("click", () => {
       const expanded = card.classList.toggle("expanded");
       readMoreBtn.textContent = expanded ? "Read less" : "Read more";
-      // ensure layout reflow: scroll into view when expanded
       if (expanded)
         card.scrollIntoView({ behavior: "smooth", block: "nearest" });
     });
@@ -142,7 +135,6 @@
     // actions
     const actions = document.createElement("div");
     actions.className = "card-actions";
-
     const editBtn = document.createElement("button");
     editBtn.textContent = "Edit";
     editBtn.addEventListener("click", () => {
@@ -157,23 +149,23 @@
       if (!confirm("Delete this recipe?")) return;
       const recipes = loadRecipes().filter((r) => r.id !== recipe.id);
       saveRecipes(recipes);
-      renderCards(currentFilter);
+      renderCards(currentSearch);
     });
 
     actions.appendChild(editBtn);
     actions.appendChild(delBtn);
 
-    // append readMore button and actions at the end
     card.appendChild(readMoreBtn);
     card.appendChild(actions);
 
     return card;
   }
-  // ...existing code...
 
-  let currentFilter = "";
-
-  function matches(recipe, q) {
+  function matches(recipe, q, difficulty) {
+    if (difficulty && difficulty !== "all") {
+      const rDiff = (recipe.difficulty || "").toString().toLowerCase();
+      if (rDiff !== String(difficulty).toLowerCase()) return false;
+    }
     if (!q) return true;
     q = q.toLowerCase();
     const hay = [
@@ -190,14 +182,16 @@
     return hay.includes(q);
   }
 
-  function renderCards(filter = "") {
-    currentFilter = filter;
+  function renderCards(search = "") {
+    currentSearch = typeof search === "string" ? search : "";
     const root = container();
     if (!root) return;
     root.innerHTML = "";
     const recipes = loadRecipes();
-    const list = recipes.filter((r) => matches(r, filter));
-    if (list.length === 0) {
+    const list = recipes.filter((r) =>
+      matches(r, currentSearch, currentDifficulty)
+    );
+    if (!list.length) {
       const p = document.createElement("p");
       p.textContent = "No recipes found.";
       root.appendChild(p);
@@ -214,20 +208,37 @@
     };
   }
 
-  function wireSearch() {
+  // separated wiring
+  function wireSearchInput() {
     const input = document.querySelector(".search-input");
-    const btn = document.querySelector(".search-button");
     if (!input) return;
     const run = debounce(() => renderCards(input.value.trim()), 160);
     input.addEventListener("input", run);
     input.addEventListener("keyup", (e) => {
       if (e.key === "Enter") renderCards(input.value.trim());
     });
-    if (btn)
-      btn.addEventListener("click", () => renderCards(input.value.trim()));
   }
 
-  // Keep addRecipe form handling if the page has the form
+  function wireSearchButton() {
+    const btn = document.querySelector(".search-button");
+    const input = document.querySelector(".search-input");
+    if (!btn) return;
+    btn.addEventListener("click", () =>
+      renderCards(input ? input.value.trim() : "")
+    );
+  }
+
+  function wireFilterSelect() {
+    const sel = document.getElementById("filter-section");
+    const input = document.querySelector(".search-input");
+    if (!sel) return;
+    currentDifficulty = sel.value || "all";
+    sel.addEventListener("change", () => {
+      currentDifficulty = sel.value;
+      renderCards(input ? input.value.trim() : "");
+    });
+  }
+
   function wireForm() {
     const recipeForm = document.getElementById("recipe-form");
     if (!recipeForm) return;
@@ -239,8 +250,10 @@
         return;
       }
       const submitButton = recipeForm.querySelector(".submit-button");
-      submitButton.textContent = "Saving...";
-      submitButton.disabled = true;
+      if (submitButton) {
+        submitButton.textContent = "Saving...";
+        submitButton.disabled = true;
+      }
 
       const formData = new FormData(recipeForm);
       const prepTime = parseInt(formData.get("prepTime")) || 0;
@@ -264,25 +277,62 @@
       recipes.unshift(recipeData);
       saveRecipes(recipes);
 
-      submitButton.textContent = "Recipe Saved!";
-      setTimeout(() => {
-        recipeForm.reset();
-        submitButton.textContent = "Save Recipe";
-        submitButton.disabled = false;
-        // if on add page, navigate back to index to see card
-        if (window.location.pathname.endsWith("addRecipe.html")) {
-          window.location.href = "index.html";
-        } else {
-          renderCards();
-        }
-      }, 800);
+      if (submitButton) {
+        submitButton.textContent = "Recipe Saved!";
+        setTimeout(() => {
+          recipeForm.reset();
+          submitButton.textContent = "Save Recipe";
+          submitButton.disabled = false;
+          if (window.location.pathname.endsWith("addRecipe.html")) {
+            window.location.href = "index.html";
+          } else {
+            renderCards();
+          }
+        }, 800);
+      } else {
+        renderCards();
+      }
     });
   }
 
+  function wireMenuToggle() {
+    const btn = document.querySelector(".menu-toggle");
+    const nav = document.querySelector("header nav");
+    if (!btn || !nav) return;
+
+    btn.addEventListener("click", (e) => {
+      const opened = nav.classList.toggle("nav-open");
+      btn.setAttribute("aria-expanded", opened ? "true" : "false");
+      btn.setAttribute("aria-label", opened ? "Close menu" : "Open menu");
+    });
+
+    // close menu when a nav link is clicked
+    nav.querySelectorAll(".nav-links a").forEach((a) =>
+      a.addEventListener("click", () => {
+        nav.classList.remove("nav-open");
+        btn.setAttribute("aria-expanded", "false");
+        btn.setAttribute("aria-label", "Open menu");
+      })
+    );
+
+    // click outside to close
+    document.addEventListener("click", (ev) => {
+      if (!nav.classList.contains("nav-open")) return;
+      if (!nav.contains(ev.target)) {
+        nav.classList.remove("nav-open");
+        btn.setAttribute("aria-expanded", "false");
+        btn.setAttribute("aria-label", "Open menu");
+      }
+    });
+  }
+
+  // single initialization
   document.addEventListener("DOMContentLoaded", () => {
-    // data.js will seed localStorage if empty before this runs (data.js should be loaded first)
     renderCards();
-    wireSearch();
+    wireSearchInput();
+    wireSearchButton();
+    wireFilterSelect();
     wireForm();
+    wireMenuToggle();
   });
 })();

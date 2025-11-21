@@ -40,11 +40,88 @@ header nav {
   font-family: "Italianno", cursive;
 }
 
+.menu-toggle {
+  display: none;
+  background: transparent;
+  border: 0;
+  padding: 8px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+.menu-toggle .bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  margin: 4px 0;
+  background: #fff;
+  transition: transform 180ms ease, opacity 180ms ease;
+}
+
 .nav-links {
   display: flex;
   gap: 20px;
+  align-items: center;
 }
 
+@media (max-width: 768px) {
+  /* ensure hamburger visible */
+  .menu-toggle {
+    display: flex;
+  }
+
+  /* default: hide links, they will appear inside nav when opened */
+  .nav-links {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    gap: 8px;
+    padding: 0;
+  }
+
+  /* When nav has nav-open, show links as a vertical list inside the same nav */
+  header nav.nav-open {
+    flex-direction: column;
+    align-items: stretch;
+    padding-bottom: 10px; /* allow space for the expanded list */
+  }
+
+  header nav.nav-open .nav-links {
+    display: flex;
+    background: var(--header-nav-bg); /* keep same background as header */
+    border-radius: 8px;
+    padding: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+    margin-top: 8px;
+  }
+
+  /* each link occupies full width and looks like a menu row */
+  header nav.nav-open .nav-links a {
+    display: block;
+    width: 100%;
+    padding: 10px 12px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    border-radius: 6px;
+  }
+
+  header nav.nav-open .nav-links a:hover {
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  /* animate hamburger into X when open */
+  header nav.nav-open .menu-toggle .bar:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+  }
+  header nav.nav-open .menu-toggle .bar:nth-child(2) {
+    opacity: 0;
+  }
+  header nav.nav-open .menu-toggle .bar:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+}
+/*  mobile nav menu ends */
 li {
   list-style: none;
 }
@@ -62,14 +139,15 @@ li a:hover {
 }
 
 .search-recipe-bar {
-  background-color: var(--serach-bar-bg);
+  /* background-color: var(--serach-bar-bg); */
   height: 50px;
   padding: 0 15px;
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 15px;
+  gap: 25px;
+  background-color: none;
 }
 .search-input {
   flex-grow: 1;
@@ -94,12 +172,21 @@ li a:hover {
   background-color: var(--button-bg);
 }
 
+.add-recipe-button {
+  margin-left: 80px;
+}
 .add-recipe-button a {
   list-style: none;
   text-decoration: none;
   color: white;
 }
 
+#filter-section {
+  height: 30px;
+  opacity: 0.5;
+  width: 250px;
+  border-radius: 5px;
+}
 /*  Media Query for Mobile Screen  */
 
 @media (max-width: 768px) {
@@ -142,6 +229,12 @@ li a:hover {
 
   .search-recipe-bar button {
     width: 100%;
+  }
+  #filter-section {
+    width: 100%;
+  }
+  .add-recipe-button {
+    margin-left: 0px;
   }
 }
 
