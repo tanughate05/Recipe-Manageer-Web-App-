@@ -233,7 +233,10 @@ li a:hover {
 #maxTime {
   width: 100px;
 }
-
+.fa-clock-four:before,
+.fa-clock:before {
+  margin-right: 10px;
+}
 /* small screens keep same size but adjust spacing */
 @media (max-width: 420px) {
   #filter-section {
@@ -247,6 +250,10 @@ li a:hover {
   }
   #maxTime {
     width: 400px;
+  }
+  .fa-clock-four:before,
+  .fa-clock:before {
+    margin-right: 10px;
   }
 }
 
