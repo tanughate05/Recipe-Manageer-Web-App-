@@ -4,7 +4,6 @@
   --serach-bar-bg: white;
   --text-color: #333;
   --footer: #ff204e;
-  --add-reciepe-bg: ;
 }
 * {
   margin: 0;
@@ -205,6 +204,31 @@ li a:hover {
 /* focus accessibility */
 #filter-section:focus {
   outline-offset: 2px;
+}
+
+/*  filter time  */
+.filter-section {
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.filter-item {
+  display: flex;
+  flex-direction: row;
+}
+
+.filter-item label {
+  font-weight: bold;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.filter-item input {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
 }
 
 /* small screens keep same size but adjust spacing */
