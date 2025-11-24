@@ -206,7 +206,9 @@ li a:hover {
 #filter-section:focus {
   outline-offset: 2px;
 }
-
+.search-recipe-bar {
+  background-color: #fff7d1;
+}
 /* small screens keep same size but adjust spacing */
 @media (max-width: 420px) {
   #filter-section {
@@ -231,7 +233,7 @@ li a:hover {
 
 #filter-section {
   height: 30px;
-  opacity: 0.5;
+
   width: 30px;
   border-radius: 5px;
 }
