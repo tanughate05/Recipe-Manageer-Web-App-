@@ -110,7 +110,7 @@ footer {
     float: none;
     width: 100%;
     max-width: 100%;
-    margin: 16px auto;
+    margin: 16px 16px;
     padding: 20px;
     height: auto; /* let content determine height on small screens */
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
@@ -141,11 +141,11 @@ footer {
   .add-recipe-container {
     padding: 14px;
     border-radius: 8px;
-    margin: 12px;
+    margin: auto;
   }
 
   .add-recipe-container h2 {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
   }
 
   label {

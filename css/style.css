@@ -11,7 +11,7 @@
   box-sizing: border-box;
 }
 body {
-  background-image: url("images/recipe-bg.jpg");
+  background-image: url("../images/recipe-bg.jpg");
   background-repeat: no-repeat;
   background-position: top center;
   background-size: cover;
