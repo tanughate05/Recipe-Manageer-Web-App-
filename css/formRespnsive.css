@@ -213,7 +213,7 @@ footer {
   .add-recipe-container {
     padding: 14px;
     border-radius: 8px;
-    margin: 12px;
+    margin: 0px;
   }
 
   .add-recipe-container h2 {
