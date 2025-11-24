@@ -326,6 +326,57 @@
     });
   }
 
+  // slide show for form background
+  function startFormBgSlideshow(images = [], intervalMs = 5000) {
+    if (!images || !images.length) return null;
+    const container = document.querySelector(".add-recipe-container");
+    if (!container) return null;
+
+    // ensure at least 2 images for crossfade; if 1 image, just set background
+    if (images.length === 1) {
+      container.style.backgroundImage = `url("${images[0]}")`;
+      return null;
+    }
+    // create two slide layers (if not already present)
+    let slideA = container.querySelector(".bg-slide.a");
+    let slideB = container.querySelector(".bg-slide.b");
+    if (!slideA) {
+      slideA = document.createElement("div");
+      slideA.className = "bg-slide a";
+      container.insertBefore(slideA, container.firstChild);
+    }
+    if (!slideB) {
+      slideB = document.createElement("div");
+      slideB.className = "bg-slide b";
+      container.insertBefore(slideB, container.firstChild);
+    }
+
+    let cur = 0;
+    // initialize
+    slideA.style.backgroundImage = `url("${images[0]}")`;
+    slideA.classList.add("visible");
+    slideB.style.backgroundImage = `url("${images[1 % images.length]}")`;
+    slideB.classList.remove("visible");
+    cur = 1;
+
+    const id = setInterval(() => {
+      const nextUrl = images[cur % images.length];
+
+      const hidden = slideA.classList.contains("visible") ? slideB : slideA;
+      const visible = hidden === slideA ? slideB : slideA;
+
+      hidden.style.backgroundImage = `url("${nextUrl}")`;
+      // force overflow
+      hidden.offsetHeight;
+      visible.classList.remove("visible");
+      hidden.classList.add("visible");
+
+      cur = (cur + 1) % images.length;
+    }, intervalMs);
+
+    return () => clearInterval(id); // returns a stop function
+  }
+
   // single initialization
   document.addEventListener("DOMContentLoaded", () => {
     renderCards();
@@ -334,5 +385,13 @@
     wireFilterSelect();
     wireForm();
     wireMenuToggle();
+    startFormBgSlideshow(
+      [
+        "images/wooden-background.jpg",
+        "images/bg-bg-form-2.jpg",
+        "images/bg-bg-form.jpg",
+      ],
+      5000 // default 5000 ms (5s). For 500 seconds use 500000
+    );
   });
 })();

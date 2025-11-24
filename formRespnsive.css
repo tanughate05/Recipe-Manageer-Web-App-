@@ -1,5 +1,6 @@
 .add-recipe-container {
-  background-image: url("images/bg-form.jpg");
+  position: relative;
+  overflow: hidden;
   background-repeat: no-repeat;
   background-position: top center;
   background-size: cover;
@@ -16,7 +17,26 @@
   height: 990px;
   transition: box-shadow 0.5s ease;
 }
-
+/* slide show effect */
+.add-recipe-container .bg-slide {
+  position: absolute;
+  inset: 0; /* top:0; right:0; bottom:0; left:0; */
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  opacity: 0;
+  transition: opacity 600ms ease;
+  z-index: 0;
+  pointer-events: none;
+}
+/* visible slide */
+.add-recipe-container .bg-slide.visible {
+  opacity: 1;
+}
+.add-recipe-container > * {
+  position: relative;
+  z-index: 1;
+}
 /* Form container hover effect */
 .add-recipe-container:hover {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2), 0 0 15px var(--bg-image);
@@ -24,7 +44,7 @@
 
 .add-recipe-container h2 {
   margin-bottom: 5px;
-  border-bottom: 2px solid var(--header-nav-bg);
+  border-bottom: 2px solid black;
   padding-bottom: 10px;
   text-align: center;
 }
@@ -32,7 +52,7 @@
 h2 {
   font-family: "Italianno", cursive;
   font-size: 2rem;
-  color: #e5ee6a;
+  color: #000000;
 }
 
 .form-group {
