@@ -4,6 +4,7 @@
   --serach-bar-bg: white;
   --text-color: #333;
   --footer: #ff204e;
+  --add-reciepe-bg: ;
 }
 * {
   margin: 0;
@@ -150,7 +151,7 @@ li a:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 25px;
+  gap: 20px;
   background-color: none;
 }
 .search-input {
@@ -175,9 +176,51 @@ li a:hover {
 .search-recipe-bar button:hover {
   background-color: var(--button-bg);
 }
+/* make the difficulty select appear as a filter icon */
+#filter-section {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  width: 64px;
+  height: 50px;
+  padding: 0;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+
+  /* funnel SVG as centered icon (URI-encoded) */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><path d='M4 10h7.09a6 6 0 0 0 11.82 0H44a1 1 0 0 0 0-2H22.91A6 6 0 0 0 11.09 8H4a1 1 0 0 0 0 2zM17 5a4 4 0 1 1-4 4A4 4 0 0 1 17 5zM44 23H36.91a6 6 0 0 0-11.82 0H4a1 1 0 0 0 0 2H25.09a6 6 0 0 0 11.82 0H44a1 1 0 0 0 0-2zM31 28a4 4 0 1 1 4-4A4 4 0 0 1 31 28zM44 38H22.91a6 6 0 0 0-11.82 0H4a1 1 0 0 0 0 2h7.09a6 6 0 0 0 11.82 0H44a1 1 0 0 0 0-2zM17 43a4 4 0 1 1 4-4A4 4 0 0 1 17 43z' fill='%231a2a4f'/></svg>");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 20px 20px;
+
+  /* hide visible text but keep value for screen readers */
+  color: none;
+  background-color: none;
+  text-indent: 9999px;
+  overflow: hidden;
+}
+
+/* focus accessibility */
+#filter-section:focus {
+  outline-offset: 2px;
+}
+
+/* small screens keep same size but adjust spacing */
+@media (max-width: 420px) {
+  #filter-section {
+    width: auto;
+    height: 36px;
+    background-color: #ffe100;
+  }
+  /* EBD3F8 */
+}
 
 .add-recipe-button {
-  margin-left: 80px;
+  margin-left: 30px;
+  width: 150px;
+  background-color: var(--button-bg);
 }
 .add-recipe-button a {
   list-style: none;
@@ -188,7 +231,7 @@ li a:hover {
 #filter-section {
   height: 30px;
   opacity: 0.5;
-  width: 250px;
+  width: 30px;
   border-radius: 5px;
 }
 /*  Media Query for Mobile Screen  */
