@@ -18,9 +18,7 @@
         );
         try {
           localStorage.setItem(STORAGE_KEY, JSON.stringify(seed));
-        } catch (e) {
-          /* ignore */
-        }
+        } catch (e) {}
         return seed;
       }
       return [];
@@ -44,6 +42,9 @@
 
   let currentSearch = "";
   let currentDifficulty = "all";
+
+  //  max prep time filter state
+  let currentMaxPrep = null;
 
   function makeCard(recipe) {
     const card = document.createElement("div");
@@ -71,7 +72,6 @@
     } min · ${(recipe.difficulty || "").toString()}`;
     body.appendChild(meta);
 
-    // Ingredients
     const ingrWrap = document.createElement("div");
     ingrWrap.className = "recipe-ingredients";
     const ingrTitle = document.createElement("strong");
@@ -90,7 +90,6 @@
     ingrWrap.appendChild(ul);
     body.appendChild(ingrWrap);
 
-    // Steps
     const stepsWrap = document.createElement("div");
     stepsWrap.className = "recipe-steps";
     const stepsTitle = document.createElement("strong");
@@ -111,7 +110,6 @@
 
     card.appendChild(body);
 
-    // optional image (single image)
     if (recipe.imageURL && String(recipe.imageURL).trim()) {
       const img = document.createElement("img");
       img.className = "recipe-image";
@@ -120,7 +118,6 @@
       card.insertBefore(img, body);
     }
 
-    // read more button
     const readMoreBtn = document.createElement("button");
     readMoreBtn.className = "read-more-btn";
     readMoreBtn.type = "button";
@@ -132,7 +129,6 @@
         card.scrollIntoView({ behavior: "smooth", block: "nearest" });
     });
 
-    // actions
     const actions = document.createElement("div");
     actions.className = "card-actions";
     const editBtn = document.createElement("button");
@@ -161,13 +157,22 @@
     return card;
   }
 
+  // max prep filter
   function matches(recipe, q, difficulty) {
     if (difficulty && difficulty !== "all") {
       const rDiff = (recipe.difficulty || "").toString().toLowerCase();
       if (rDiff !== String(difficulty).toLowerCase()) return false;
     }
+
+    //  prep time filtering
+    if (currentMaxPrep !== null) {
+      const prep = Number(recipe.prepTime) || 0;
+      if (prep > currentMaxPrep) return false;
+    }
+
     if (!q) return true;
     q = q.toLowerCase();
+
     const hay = [
       recipe.title,
       recipe.description,
@@ -179,6 +184,7 @@
     ]
       .join(" ")
       .toLowerCase();
+
     return hay.includes(q);
   }
 
@@ -208,15 +214,11 @@
     };
   }
 
-  // separated wiring
   function wireSearchInput() {
     const input = document.querySelector(".search-input");
     if (!input) return;
     const run = debounce(() => renderCards(input.value.trim()), 160);
     input.addEventListener("input", run);
-    input.addEventListener("keyup", (e) => {
-      if (e.key === "Enter") renderCards(input.value.trim());
-    });
   }
 
   function wireSearchButton() {
@@ -239,6 +241,16 @@
     });
   }
 
+  // Wire max prep filter
+  const maxTimeInput = document.getElementById("maxTime");
+  if (maxTimeInput) {
+    maxTimeInput.addEventListener("input", () => {
+      const v = maxTimeInput.value.trim();
+      currentMaxPrep = v === "" ? null : Number(v);
+      renderCards(currentSearch);
+    });
+  }
+
   function wireForm() {
     const recipeForm = document.getElementById("recipe-form");
     if (!recipeForm) return;
@@ -248,11 +260,6 @@
       if (!recipeForm.checkValidity()) {
         recipeForm.reportValidity();
         return;
-      }
-      const submitButton = recipeForm.querySelector(".submit-button");
-      if (submitButton) {
-        submitButton.textContent = "Saving...";
-        submitButton.disabled = true;
       }
 
       const formData = new FormData(recipeForm);
@@ -277,21 +284,7 @@
       recipes.unshift(recipeData);
       saveRecipes(recipes);
 
-      if (submitButton) {
-        submitButton.textContent = "Recipe Saved!";
-        setTimeout(() => {
-          recipeForm.reset();
-          submitButton.textContent = "Save Recipe";
-          submitButton.disabled = false;
-          if (window.location.pathname.endsWith("addRecipe.html")) {
-            window.location.href = "index.html";
-          } else {
-            renderCards();
-          }
-        }, 800);
-      } else {
-        renderCards();
-      }
+      renderCards();
     });
   }
 
@@ -300,51 +293,38 @@
     const nav = document.querySelector("header nav");
     if (!btn || !nav) return;
 
-    btn.addEventListener("click", (e) => {
+    btn.addEventListener("click", () => {
       const opened = nav.classList.toggle("nav-open");
       btn.setAttribute("aria-expanded", opened ? "true" : "false");
-      btn.setAttribute("aria-label", opened ? "Close menu" : "Open menu");
     });
 
-    // close menu when a nav link is clicked
     nav.querySelectorAll(".nav-links a").forEach((a) =>
       a.addEventListener("click", () => {
         nav.classList.remove("nav-open");
         btn.setAttribute("aria-expanded", "false");
-        btn.setAttribute("aria-label", "Open menu");
       })
     );
-
-    // click outside to close
-    document.addEventListener("click", (ev) => {
-      if (!nav.classList.contains("nav-open")) return;
-      if (!nav.contains(ev.target)) {
-        nav.classList.remove("nav-open");
-        btn.setAttribute("aria-expanded", "false");
-        btn.setAttribute("aria-label", "Open menu");
-      }
-    });
   }
 
-  // slide show for form background
   function startFormBgSlideshow(images = [], intervalMs = 5000) {
     if (!images || !images.length) return null;
     const container = document.querySelector(".add-recipe-container");
     if (!container) return null;
 
-    // ensure at least 2 images for crossfade; if 1 image, just set background
     if (images.length === 1) {
       container.style.backgroundImage = `url("${images[0]}")`;
       return null;
     }
-    // create two slide layers (if not already present)
+
     let slideA = container.querySelector(".bg-slide.a");
     let slideB = container.querySelector(".bg-slide.b");
+
     if (!slideA) {
       slideA = document.createElement("div");
       slideA.className = "bg-slide a";
       container.insertBefore(slideA, container.firstChild);
     }
+
     if (!slideB) {
       slideB = document.createElement("div");
       slideB.className = "bg-slide b";
@@ -352,11 +332,12 @@
     }
 
     let cur = 0;
-    // initialize
+
     slideA.style.backgroundImage = `url("${images[0]}")`;
     slideA.classList.add("visible");
     slideB.style.backgroundImage = `url("${images[1 % images.length]}")`;
     slideB.classList.remove("visible");
+
     cur = 1;
 
     const id = setInterval(() => {
@@ -366,18 +347,17 @@
       const visible = hidden === slideA ? slideB : slideA;
 
       hidden.style.backgroundImage = `url("${nextUrl}")`;
-      // force overflow
       hidden.offsetHeight;
+
       visible.classList.remove("visible");
       hidden.classList.add("visible");
 
       cur = (cur + 1) % images.length;
     }, intervalMs);
 
-    return () => clearInterval(id); // returns a stop function
+    return () => clearInterval(id);
   }
 
-  // single initialization
   document.addEventListener("DOMContentLoaded", () => {
     renderCards();
     wireSearchInput();
@@ -391,7 +371,7 @@
         "images/bg-bg-form-2.jpg",
         "images/bg-bg-form.jpg",
       ],
-      5000 // default 5000 ms (5s). For 500 seconds use 500000
+      5000
     );
   });
 })();

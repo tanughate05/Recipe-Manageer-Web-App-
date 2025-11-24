@@ -230,6 +230,9 @@ li a:hover {
   border-radius: 6px;
   border: 1px solid #ccc;
 }
+#maxTime {
+  width: 100px;
+}
 
 /* small screens keep same size but adjust spacing */
 @media (max-width: 420px) {
@@ -241,6 +244,9 @@ li a:hover {
   /* EBD3F8 */
   .search-recipe-bar {
     background-color: #fff7d1;
+  }
+  #maxTime {
+    width: 400px;
   }
 }
 
