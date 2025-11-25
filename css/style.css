@@ -355,7 +355,7 @@ li a:hover {
 .card-body {
   padding: 0.6rem 1rem 0.4rem;
   max-height: 260px;
-  overflow: hidden;
+  overflow: scroll;
   transition: max-height 220ms ease;
 }
 .recipe-card.expanded {

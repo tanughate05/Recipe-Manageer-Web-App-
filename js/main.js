@@ -133,11 +133,33 @@
     readMoreBtn.className = "read-more-btn";
     readMoreBtn.type = "button";
     readMoreBtn.textContent = "Read more";
-    readMoreBtn.addEventListener("click", () => {
+
+    // Function to toggle expanded state
+    function toggleCard() {
       const expanded = card.classList.toggle("expanded");
       readMoreBtn.textContent = expanded ? "Read less" : "Read more";
-      if (expanded)
-        card.scrollIntoView({ behavior: "smooth", block: "nearest" });
+
+      if (expanded) {
+        // Smooth scroll to card
+        card.scrollIntoView({ behavior: "smooth", block: "center" });
+
+        // Smooth reveal effect
+        card.style.maxHeight = card.scrollHeight + "px";
+      } else {
+        // Smooth close animation
+        card.style.maxHeight = "650px"; // default collapsed height
+      }
+    }
+
+    // Button click → toggle
+    readMoreBtn.addEventListener("click", (e) => {
+      e.stopPropagation(); // prevent double trigger
+      toggleCard();
+    });
+
+    // Card click → also toggle
+    card.addEventListener("click", () => {
+      toggleCard();
     });
 
     const actions = document.createElement("div");
