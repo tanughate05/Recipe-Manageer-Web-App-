@@ -31,6 +31,8 @@
   const saveRecipes = (arr) => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+      const p = document.createElement("p");
+      p.textContent = " Recipe Added!! Go home and check. ";
     } catch (e) {
       console.error("saveRecipes error", e);
     }
@@ -84,7 +86,8 @@
     ingredients.forEach((i) => {
       if (!i || !String(i).trim()) return;
       const li = document.createElement("li");
-      li.textContent = i;
+      li.textContent = "• " + i.trim();
+
       ul.appendChild(li);
     });
     ingrWrap.appendChild(ul);
@@ -95,16 +98,24 @@
     const stepsTitle = document.createElement("strong");
     stepsTitle.textContent = "Steps";
     stepsWrap.appendChild(stepsTitle);
+
     const ol = document.createElement("ol");
+
     const steps = Array.isArray(recipe.steps)
       ? recipe.steps
       : String(recipe.steps || "").split(/\r?\n/);
+
     steps.forEach((s) => {
       if (!s || !String(s).trim()) return;
+
       const li = document.createElement("li");
-      li.textContent = s;
+
+      // Add "• " before the step text
+      li.textContent = "• " + s.trim();
+
       ol.appendChild(li);
     });
+
     stepsWrap.appendChild(ol);
     body.appendChild(stepsWrap);
 
@@ -367,9 +378,9 @@
     wireMenuToggle();
     startFormBgSlideshow(
       [
-        "images/wooden-background.jpg",
+        "images/form-bg-bg-3.jpg",
         "images/bg-bg-form-2.jpg",
-        "images/bg-bg-form.jpg",
+        "images/food-bg.jpg",
       ],
       5000
     );
