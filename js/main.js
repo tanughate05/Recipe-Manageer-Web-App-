@@ -399,11 +399,7 @@
     wireForm();
     wireMenuToggle();
     startFormBgSlideshow(
-      [
-        "images/form-bg-bg-3.jpg",
-        "images/bg-bg-form-2.jpg",
-        "images/food-bg.jpg",
-      ],
+      ["images/new-fomr-background.jpg", "images/form-bg.jpg"],
       5000
     );
   });
